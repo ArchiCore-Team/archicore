@@ -1,0 +1,85 @@
+{
+  "name": "archicore-oss",
+  "version": "1.0.0",
+  "description": "Open-source code architecture analysis tool - dependency graphs, BM25 search, impact analysis",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "archicore": "./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/cli.ts",
+    "start": "node dist/index.js",
+    "server": "tsx src/server/index.ts",
+    "cli": "tsx src/cli.ts",
+    "build:native": "node-gyp rebuild --directory=native",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.4.1",
+    "cli-progress": "^3.12.0",
+    "cli-table3": "^0.6.5",
+    "commander": "^12.1.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "figures": "^6.1.0",
+    "glob": "^11.0.0",
+    "helmet": "^8.0.0",
+    "neo4j-driver": "^5.26.0",
+    "ora": "^8.1.1",
+    "tree-sitter": "^0.21.1",
+    "tree-sitter-javascript": "^0.21.4",
+    "tree-sitter-python": "^0.21.0",
+    "tree-sitter-typescript": "^0.21.2",
+    "uuid": "^11.0.3",
+    "zod": "^3.24.1"
+  },
+  "optionalDependencies": {
+    "openai": "^4.73.0"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
+    "@types/compression": "^1.7.5",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.10.2",
+    "node-addon-api": "^8.0.0",
+    "node-api-headers": "^1.1.0",
+    "node-gyp": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "files": [
+    "dist/",
+    "native/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "architecture",
+    "code-analysis",
+    "dependency-graph",
+    "bm25",
+    "impact-analysis",
+    "tree-sitter",
+    "neo4j",
+    "static-analysis"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/niccolev/archicore-oss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niccolev/archicore-oss/issues"
+  },
+  "homepage": "https://github.com/niccolev/archicore-oss#readme",
+  "author": "ArchiCore Team"
+}
