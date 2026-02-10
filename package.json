@@ -75,11 +75,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/niccolev/archicore-oss.git"
+    "url": "https://github.com/ArchiCore-Team/archicore.git"
   },
   "bugs": {
-    "url": "https://github.com/niccolev/archicore-oss/issues"
+    "url": "https://github.com/ArchiCore-Team/archicore/issues"
   },
-  "homepage": "https://github.com/niccolev/archicore-oss#readme",
+  "homepage": "https://github.com/ArchiCore-Team/archicore#readme",
   "author": "ArchiCore Team"
 }
