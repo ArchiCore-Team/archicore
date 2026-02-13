@@ -1,19 +1,57 @@
-# ArchiCore OSS
+<p align="center">
+  <img src="assets/hero-banner.png" alt="ArchiCore — Open-Source CLI for Code Architecture Analysis" width="100%">
+</p>
 
-Open-source code architecture analysis tool. Dependency graphs (Neo4j), BM25 search, impact analysis, code metrics - all without LLM. LLM is an optional plugin (Ollama/OpenAI).
+<p align="center">
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Get_Started-blue?style=for-the-badge" alt="Get Started"></a>
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/languages-15+-orange?style=flat-square" alt="15+ Languages">
+  <img src="https://img.shields.io/badge/runs-locally-brightgreen?style=flat-square" alt="Runs Locally">
+</p>
+
+<p align="center">
+  Open-source CLI that analyzes code architecture, security, dead code, and dependencies.<br>
+  No cloud. No config. One command.
+</p>
+
+---
+
+## Demo
+
+<p align="center">
+  <img src="assets/demo.gif" alt="ArchiCore CLI Demo" width="800">
+</p>
 
 ## Features
 
-- **Dependency Graph** - AST-based dependency analysis with Neo4j storage (or in-memory fallback)
-- **BM25 Search** - Full-text code search with camelCase/snake_case tokenization and graph-boosted ranking
-- **Impact Analysis** - Transitive impact prediction for code changes
-- **Code Metrics** - Cyclomatic complexity, coupling, maintainability index
-- **Security Scanner** - Common vulnerability pattern detection
-- **Dead Code Detection** - Find unused exports, functions, and variables
-- **Duplication Analysis** - Detect code clones
-- **Architecture Rules** - Configurable rule engine for dependency constraints
-- **Multi-language** - TypeScript, JavaScript, Python, Go, Rust, Java, C#, PHP, Ruby, and 40+ more
-- **Multiple Export Formats** - JSON, HTML, Markdown, CSV, GraphML
+<p align="center">
+  <img src="assets/features.png" alt="ArchiCore Features" width="100%">
+</p>
+
+- **Dependency Graph** — AST-based dependency analysis with Neo4j storage (or in-memory fallback)
+- **BM25 Search** — Full-text code search with camelCase/snake_case tokenization and graph-boosted ranking
+- **Impact Analysis** — Transitive impact prediction for code changes
+- **Code Metrics** — Cyclomatic complexity, coupling, maintainability index
+- **Security Scanner** — 115+ vulnerability pattern detection across all languages
+- **Dead Code Detection** — Find unused exports, functions, variables, and unreachable lines
+- **Duplication Analysis** — Detect code clones
+- **Architecture Rules** — Configurable rule engine for dependency constraints
+- **Multi-language** — TypeScript, JavaScript, Python, Go, Rust, Java, C#, PHP, Ruby, and 40+ more
+- **Multiple Export Formats** — JSON, HTML, Markdown, CSV, GraphML
+
+## Why ArchiCore?
+
+| Feature | ArchiCore | SonarQube | ESLint | Semgrep |
+|---------|-----------|-----------|--------|---------|
+| Runs locally | **Yes** | No (server) | Yes | Yes |
+| Free & open-source | **Yes (MIT)** | Community ed. | Yes | Partial |
+| Multi-language (15+) | **Yes** | Yes | JS/TS only | Yes |
+| Dependency graph | **Yes** | No | No | No |
+| BM25 code search | **Yes** | No | No | No |
+| Dead-code detection | **Yes** | Limited | No | No |
+| JSON / Neo4j export | **Yes** | API only | JSON only | JSON / SARIF |
+| One-command setup | **Yes** | No | Config needed | Config needed |
 
 ## Quick Start
 
@@ -24,22 +62,20 @@ npm run build
 # Index a project
 archicore index /path/to/project
 
+# Analyze everything
+archicore analyze --all
+
 # Query dependencies
 archicore query deps src/index.ts
 archicore query dependents src/utils/logger.ts
 archicore query cycles
 archicore query hubs
 
-# Search
+# Search code
 archicore search "dependency graph"
 archicore search --symbols "parseAST"
 
-# Analyze
-archicore analyze --all
-archicore analyze --security
-archicore analyze --metrics
-
-# Export
+# Export results
 archicore export json --output report.json
 archicore export graphml --output graph.graphml
 
@@ -145,26 +181,13 @@ archicore analyze --all --explain
 
 ## Architecture
 
-```
-src/
-  index.ts           - ArchiCoreOSS main class
-  cli.ts             - CLI entry point (commander)
-  types/             - Core type definitions
-  code-index/        - AST parsing, symbol extraction, dependency graph
-  impact-engine/     - Change impact analysis
-  architecture/      - Architecture knowledge base
-  metrics/           - Code quality metrics
-  rules-engine/      - Configurable architecture rules
-  analyzers/         - Security, dead code, duplication, narrator
-  export/            - JSON, HTML, Markdown, CSV, GraphML export
-  watcher/           - File system watcher
-  graph/             - Neo4j integration with in-memory fallback
-  search/            - BM25 search engine
-  server/            - Express REST API
-  plugins/           - Optional LLM plugins (Ollama, OpenAI)
-  native/            - C++ native modules with JS fallbacks
-  utils/             - Logger, file utils, library detection
-```
+<p align="center">
+  <img src="assets/architecture.png" alt="ArchiCore Architecture" width="100%">
+</p>
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, coding standards, and PR process.
 
 ## License
 
