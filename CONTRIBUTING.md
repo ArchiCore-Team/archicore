@@ -5,7 +5,7 @@ Thank you for your interest in contributing to ArchiCore OSS!
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/archicore-oss.git`
+2. Clone your fork: `git clone https://github.com/ArchiCore-Team/archicore.git`
 3. Install dependencies: `npm install`
 4. Build the project: `npm run build`
 5. Run the CLI: `node dist/cli.js --help`
