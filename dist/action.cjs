@@ -19825,17 +19825,31 @@ var SEVERITY_RANK = {
 function severityRank(s) {
   return SEVERITY_RANK[s.toLowerCase()] ?? 0;
 }
-function ensureCli() {
+function setupCli() {
   try {
     (0, import_node_child_process.execSync)("archicore --version", { stdio: "pipe" });
-    core.info("archicore CLI already available in PATH");
+    core.info("Using archicore from PATH");
+    return "archicore";
   } catch {
-    core.info("archicore CLI not found \u2014 installing archicore-oss@latest globally\u2026");
-    (0, import_node_child_process.execSync)("npm install -g archicore-oss@latest", { stdio: "inherit" });
   }
+  const actionPath = process.env.GITHUB_ACTION_PATH;
+  if (!actionPath) {
+    throw new Error("archicore not found in PATH and GITHUB_ACTION_PATH is not set.");
+  }
+  const cliDist = path.join(actionPath, "dist", "cli.js");
+  if (!fs.existsSync(path.join(actionPath, "node_modules"))) {
+    core.info("Installing ArchiCore dependencies (npm ci)\u2026");
+    (0, import_node_child_process.execSync)(`npm ci --prefix "${actionPath}"`, { stdio: "inherit" });
+  }
+  if (!fs.existsSync(cliDist)) {
+    core.info("Compiling ArchiCore CLI (npm run build)\u2026");
+    (0, import_node_child_process.execSync)(`npm run build --prefix "${actionPath}"`, { stdio: "inherit" });
+  }
+  core.info(`Using ArchiCore from ${cliDist}`);
+  return `node "${cliDist}"`;
 }
-function buildCliArgs(analyzePath, analyzers, tmpReport) {
-  const args = ["archicore", "analyze", "--root", analyzePath];
+function buildCliArgs(cli, analyzePath, analyzers, tmpReport) {
+  const args = [cli, "analyze", "--root", analyzePath];
   const list = analyzers.split(",").map((a) => a.trim().toLowerCase());
   if (list.includes("all")) {
     args.push("--all");
@@ -19942,10 +19956,10 @@ async function run() {
     const analyzers = core.getInput("analyzers") || "security,metrics";
     const failOn = (core.getInput("fail-on-severity") || "high").toLowerCase();
     const jsonOutput = core.getInput("json-output") || "";
-    ensureCli();
+    const cli = setupCli();
     const runnerTemp = process.env.RUNNER_TEMP || os.tmpdir();
     const tmpReport = path.join(runnerTemp, `archicore-report-${Date.now()}.json`);
-    const args = buildCliArgs(analyzePath, analyzers, tmpReport);
+    const args = buildCliArgs(cli, analyzePath, analyzers, tmpReport);
     const cmd = args.join(" ");
     core.info(`Running: ${cmd}`);
     try {
