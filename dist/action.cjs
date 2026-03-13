@@ -19832,10 +19832,7 @@ function setupCli() {
     return "archicore";
   } catch {
   }
-  const actionPath = process.env.GITHUB_ACTION_PATH;
-  if (!actionPath) {
-    throw new Error("archicore not found in PATH and GITHUB_ACTION_PATH is not set.");
-  }
+  const actionPath = path.resolve(__dirname, "..");
   const cliDist = path.join(actionPath, "dist", "cli.js");
   if (!fs.existsSync(path.join(actionPath, "node_modules"))) {
     core.info("Installing ArchiCore dependencies (npm ci)\u2026");

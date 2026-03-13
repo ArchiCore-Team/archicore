@@ -100,11 +100,9 @@ function setupCli(): string {
     return 'archicore';
   } catch { /* not in PATH */ }
 
-  // 2. Build from the action's own checked-out source
-  const actionPath = process.env.GITHUB_ACTION_PATH;
-  if (!actionPath) {
-    throw new Error('archicore not found in PATH and GITHUB_ACTION_PATH is not set.');
-  }
+  // 2. Build from the action's own checked-out source.
+  // __dirname = <repo>/dist/ at runtime, so go one level up to get repo root.
+  const actionPath = path.resolve(__dirname, '..');
 
   const cliDist = path.join(actionPath, 'dist', 'cli.js');
 
