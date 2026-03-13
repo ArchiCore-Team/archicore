@@ -1,0 +1,41 @@
+# ============================================================================
+# Example: Use ArchiCore in your project
+# Copy this file to your project's .github/workflows/ directory and adjust
+# the inputs to match your needs.
+# ============================================================================
+
+name: Code Architecture Analysis
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  archicore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ArchiCore Analysis
+        id: analysis
+        uses: ArchiCore-Team/archicore@v1
+        with:
+          path: '.'
+          analyzers: 'security,metrics,dead-code'
+          fail-on-severity: 'high'
+          json-output: 'archicore-report.json'
+
+      - name: Print summary
+        if: always()
+        run: |
+          echo "Risk Score: ${{ steps.analysis.outputs.risk-score }}"
+          echo "Findings:   ${{ steps.analysis.outputs.findings-count }}"
+          echo "Grade:      ${{ steps.analysis.outputs.grade }}"
+
+      - name: Upload JSON Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: archicore-report
+          path: archicore-report.json

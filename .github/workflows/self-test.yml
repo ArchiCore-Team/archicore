@@ -1,0 +1,38 @@
+name: ArchiCore Self-Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build action bundle
+        run: npm run build:action
+
+      - name: Analyze with ArchiCore
+        id: archicore
+        uses: ./
+        with:
+          path: '.'
+          analyzers: 'security,metrics'
+          fail-on-severity: 'none'   # don't fail on self-analysis
+
+      - name: Print outputs
+        run: |
+          echo "Risk Score: ${{ steps.archicore.outputs.risk-score }}"
+          echo "Findings:   ${{ steps.archicore.outputs.findings-count }}"
+          echo "High:       ${{ steps.archicore.outputs.high-severity-count }}"
+          echo "Grade:      ${{ steps.archicore.outputs.grade }}"

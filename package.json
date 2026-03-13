@@ -17,7 +17,8 @@
     "server": "tsx src/server/index.ts",
     "cli": "tsx src/cli.ts",
     "build:native": "node-gyp rebuild --directory=native",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:action": "esbuild src/action.ts --bundle --platform=node --format=cjs --outfile=dist/action.js"
   },
   "dependencies": {
     "boxen": "^8.0.1",
@@ -45,6 +46,8 @@
     "openai": "^4.73.0"
   },
   "devDependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/exec": "^1.1.1",
     "@types/cli-progress": "^3.11.6",
     "@types/compression": "^1.7.5",
     "@types/cors": "^2.8.19",
@@ -54,9 +57,11 @@
     "node-api-headers": "^1.1.0",
     "node-gyp": "^10.0.0",
     "tsx": "^4.19.2",
+    "esbuild": "^0.24.2",
     "typescript": "^5.7.2"
   },
   "files": [
+    "action.yml",
     "dist/",
     "native/",
     "README.md",

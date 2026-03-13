@@ -1,0 +1,41 @@
+name: 'ArchiCore — Code Architecture Analysis'
+description: 'AST-based security scanning, code metrics, dead code detection, and dependency analysis for any codebase.'
+author: 'ArchiCore Team'
+
+branding:
+  icon: 'search'
+  color: 'blue'
+
+inputs:
+  path:
+    description: 'Path to the directory to analyze'
+    required: false
+    default: '.'
+  analyzers:
+    description: 'Comma-separated list: security, metrics, dead-code, duplication, rules, all'
+    required: false
+    default: 'security,metrics'
+  fail-on-severity:
+    description: 'Fail if findings at or above this severity exist (none|low|medium|high|critical)'
+    required: false
+    default: 'high'
+  json-output:
+    description: 'File path to write the full JSON report (optional)'
+    required: false
+    default: ''
+
+outputs:
+  risk-score:
+    description: 'Security risk score 0–100'
+  findings-count:
+    description: 'Total number of findings'
+  high-severity-count:
+    description: 'Number of high/critical findings'
+  grade:
+    description: 'Security grade A–F'
+  report:
+    description: 'Full JSON report as string'
+
+runs:
+  using: 'node20'
+  main: 'dist/action.js'
