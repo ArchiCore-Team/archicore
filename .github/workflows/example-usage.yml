@@ -7,9 +7,7 @@
 name: Code Architecture Analysis
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
+  workflow_dispatch: # run manually only — this file is an example for users to copy
 
 jobs:
   archicore:
