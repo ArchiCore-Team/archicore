@@ -1,5 +1,6 @@
 node_modules/
-dist/
+dist/*
+!dist/action.js
 .env
 *.node
 build/
