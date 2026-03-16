@@ -501,12 +501,12 @@ export class SecurityAnalyzer {
     // Private Keys
     {
       type: 'private-key',
-      pattern: /-----BEGIN (?:RSA |EC |DSA )?PRIVATE KEY-----/g,
+      pattern: /-----BEGIN (?:RSA |EC |DSA )?PRIVATE KEY-----/g, // archicore-ignore
       confidence: 'high'
     },
     {
       type: 'private-key',
-      pattern: /-----BEGIN OPENSSH PRIVATE KEY-----/g,
+      pattern: /-----BEGIN OPENSSH PRIVATE KEY-----/g, // archicore-ignore
       confidence: 'high'
     },
 
@@ -635,6 +635,7 @@ export class SecurityAnalyzer {
           if (codeLine.trim().startsWith('//') || codeLine.trim().startsWith('#')) continue;
           if (codeLine.includes('example') || codeLine.includes('placeholder')) continue;
           if (codeLine.includes('process.env') || codeLine.includes('getenv')) continue;
+          if (codeLine.includes('archicore-ignore')) continue;
 
           secrets.push({
             type: pattern.type,
