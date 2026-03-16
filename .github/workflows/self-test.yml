@@ -36,3 +36,45 @@ jobs:
           echo "Findings:   ${{ steps.archicore.outputs.findings-count }}"
           echo "High:       ${{ steps.archicore.outputs.high-severity-count }}"
           echo "Grade:      ${{ steps.archicore.outputs.grade }}"
+
+      - name: Generate architecture badge
+        if: github.ref == 'refs/heads/main'
+        run: |
+          SCORE="${{ steps.archicore.outputs.risk-score }}"
+          GRADE="${{ steps.archicore.outputs.grade }}"
+
+          if   [ "$SCORE" -ge 80 ]; then COLOR="brightgreen"
+          elif [ "$SCORE" -ge 60 ]; then COLOR="yellow"
+          elif [ "$SCORE" -ge 40 ]; then COLOR="orange"
+          else COLOR="red"
+          fi
+
+          # Save to /tmp so it survives branch switching
+          cat > /tmp/architecture.json << EOF
+          {"schemaVersion":1,"label":"architecture","message":"${SCORE}/100 (${GRADE})","color":"${COLOR}"}
+          EOF
+
+      - name: Push badge to badges branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin badges 2>/dev/null || true
+
+          # Switch to badges branch or create it as orphan
+          if git checkout badges 2>/dev/null; then
+            git rm -rf . --quiet 2>/dev/null || true
+          else
+            git checkout --orphan badges
+            git rm -rf . --quiet 2>/dev/null || true
+          fi
+
+          mkdir -p badge
+          cp /tmp/architecture.json badge/architecture.json
+
+          git add badge/architecture.json
+          git diff --cached --quiet || git commit -m "chore: update architecture badge [skip ci]"
+          git push origin badges
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

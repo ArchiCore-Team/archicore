@@ -5,6 +5,7 @@
 <p align="center">
   <a href="#quick-start"><img src="https://img.shields.io/badge/Get_Started-blue?style=for-the-badge" alt="Get Started"></a>
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
+  <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/ArchiCore-Team/archicore/badges/badge/architecture.json&style=flat-square" alt="Architecture Health">
   <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/languages-15+-orange?style=flat-square" alt="15+ Languages">
   <img src="https://img.shields.io/badge/runs-locally-brightgreen?style=flat-square" alt="Runs Locally">
