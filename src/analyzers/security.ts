@@ -443,7 +443,7 @@ export class SecurityAnalyzer {
       type: 'insecure-deserialization',
       pattern: /eval\s*\(/g, // archicore-ignore
       severity: 'critical',
-      title: 'Use of eval()',
+      title: 'Use of eval()', // archicore-ignore
       description: 'eval() can execute arbitrary code', // archicore-ignore
       cwe: 'CWE-95',
       owasp: 'A08:2021-Software and Data Integrity',
