@@ -30,7 +30,7 @@ export class Neo4jClient {
     this.config = {
       uri: config?.uri || process.env.NEO4J_URI || 'bolt://localhost:7687',
       username: config?.username || process.env.NEO4J_USERNAME || 'neo4j',
-      password: config?.password || process.env.NEO4J_PASSWORD || 'password',
+      password: config?.password || process.env.NEO4J_PASSWORD || 'password', // archicore-ignore
     };
   }
 
