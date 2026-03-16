@@ -10,7 +10,7 @@
  */
 
 import * as core from '@actions/core';
-import { execSync } from 'node:child_process';
+import { execSync, spawnSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
@@ -108,12 +108,14 @@ function setupCli(): string {
 
   if (!fs.existsSync(path.join(actionPath, 'node_modules'))) {
     core.info('Installing ArchiCore dependencies (npm ci)…');
-    execSync(`npm ci --prefix "${actionPath}"`, { stdio: 'inherit' });
+    const ci = spawnSync('npm', ['ci', '--prefix', actionPath], { stdio: 'inherit' });
+    if (ci.status !== 0) throw new Error('npm ci failed');
   }
 
   if (!fs.existsSync(cliDist)) {
     core.info('Compiling ArchiCore CLI (npm run build)…');
-    execSync(`npm run build --prefix "${actionPath}"`, { stdio: 'inherit' });
+    const build = spawnSync('npm', ['run', 'build', '--prefix', actionPath], { stdio: 'inherit' });
+    if (build.status !== 0) throw new Error('npm run build failed');
   }
 
   core.info(`Using ArchiCore from ${cliDist}`);

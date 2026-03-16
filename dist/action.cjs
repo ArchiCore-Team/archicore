@@ -19836,11 +19836,13 @@ function setupCli() {
   const cliDist = path.join(actionPath, "dist", "cli.js");
   if (!fs.existsSync(path.join(actionPath, "node_modules"))) {
     core.info("Installing ArchiCore dependencies (npm ci)\u2026");
-    (0, import_node_child_process.execSync)(`npm ci --prefix "${actionPath}"`, { stdio: "inherit" });
+    const ci = (0, import_node_child_process.spawnSync)("npm", ["ci", "--prefix", actionPath], { stdio: "inherit" });
+    if (ci.status !== 0) throw new Error("npm ci failed");
   }
   if (!fs.existsSync(cliDist)) {
     core.info("Compiling ArchiCore CLI (npm run build)\u2026");
-    (0, import_node_child_process.execSync)(`npm run build --prefix "${actionPath}"`, { stdio: "inherit" });
+    const build = (0, import_node_child_process.spawnSync)("npm", ["run", "build", "--prefix", actionPath], { stdio: "inherit" });
+    if (build.status !== 0) throw new Error("npm run build failed");
   }
   core.info(`Using ArchiCore from ${cliDist}`);
   return `node "${cliDist}"`;

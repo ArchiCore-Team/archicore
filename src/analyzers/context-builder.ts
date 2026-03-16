@@ -243,7 +243,7 @@ const BUG_PATTERNS = [
     pattern: /\beval\s*\(/,
     type: 'security' as const,
     severity: 'high' as const,
-    message: 'Использование eval() - риск инъекции',
+    message: 'Использование eval() - риск инъекции', // archicore-ignore
     suggestion: 'Избегай eval, используй безопасные альтернативы',
   },
   {

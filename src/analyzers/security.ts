@@ -144,6 +144,16 @@ export class SecurityAnalyzer {
   }
 
   /**
+   * Check if a line is marked with // archicore-ignore to suppress false positives
+   */
+  private isIgnoredLine(content: string, matchIndex: number): boolean {
+    const lineStart = content.lastIndexOf('\n', matchIndex) + 1;
+    const lineEnd = content.indexOf('\n', matchIndex);
+    const line = content.substring(lineStart, lineEnd === -1 ? content.length : lineEnd);
+    return line.includes('// archicore-ignore');
+  }
+
+  /**
    * Check if file is a build config (webpack, quasar, vite config)
    */
   private isConfigFile(filePath: string): boolean {
@@ -192,7 +202,7 @@ export class SecurityAnalyzer {
       pattern: /document\.write\s*\(/g,
       severity: 'high',
       title: 'XSS via document.write',
-      description: 'document.write() can execute arbitrary scripts',
+      description: 'document.write() can execute arbitrary scripts', // archicore-ignore
       cwe: 'CWE-79',
       owasp: 'A03:2021-Injection',
       remediation: 'Use DOM manipulation methods instead'
@@ -431,23 +441,23 @@ export class SecurityAnalyzer {
     // Insecure Deserialization — eval()
     {
       type: 'insecure-deserialization',
-      pattern: /eval\s*\(/g,
+      pattern: /eval\s*\(/g, // archicore-ignore
       severity: 'critical',
       title: 'Use of eval()',
-      description: 'eval() can execute arbitrary code',
+      description: 'eval() can execute arbitrary code', // archicore-ignore
       cwe: 'CWE-95',
       owasp: 'A08:2021-Software and Data Integrity',
-      remediation: 'Avoid eval(), use JSON.parse() or safer alternatives'
+      remediation: 'Avoid eval(), use JSON.parse() or safer alternatives' // archicore-ignore
     },
     {
       type: 'insecure-deserialization',
-      pattern: /new Function\s*\(/g,
+      pattern: /new Function\s*\(/g, // archicore-ignore
       severity: 'high',
       title: 'Dynamic Function Creation',
-      description: 'new Function() can execute arbitrary code',
+      description: 'new Function() can execute arbitrary code', // archicore-ignore
       cwe: 'CWE-95',
       owasp: 'A08:2021-Software and Data Integrity',
-      remediation: 'Avoid dynamic code execution'
+      remediation: 'Avoid dynamic code execution' // archicore-ignore
     }
   ];
 
@@ -569,6 +579,9 @@ export class SecurityAnalyzer {
 
           // Skip commented-out code
           if (this.isCommentedOut(content, matchIndex)) continue;
+
+          // Skip lines marked with // archicore-ignore
+          if (this.isIgnoredLine(content, matchIndex)) continue;
 
           // Проверяем контекст если нужно
           if (pattern.contextCheck) {
