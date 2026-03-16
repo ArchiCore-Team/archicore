@@ -42,8 +42,9 @@ jobs:
       - name: Generate architecture badge
         if: github.ref == 'refs/heads/main'
         run: |
-          SCORE="${{ steps.archicore.outputs.risk-score }}"
+          RISK="${{ steps.archicore.outputs.risk-score }}"
           GRADE="${{ steps.archicore.outputs.grade }}"
+          SCORE=$((100 - RISK))
 
           if   [ "$SCORE" -ge 80 ]; then COLOR="brightgreen"
           elif [ "$SCORE" -ge 60 ]; then COLOR="yellow"
@@ -53,7 +54,7 @@ jobs:
 
           # Save to /tmp so it survives branch switching
           cat > /tmp/architecture.json << EOF
-          {"schemaVersion":1,"label":"architecture","message":"${SCORE}/100 (${GRADE})","color":"${COLOR}"}
+          {"schemaVersion":1,"label":"architecture health","message":"${SCORE}/100 (${GRADE})","color":"${COLOR}"}
           EOF
 
       - name: Push badge to badges branch
